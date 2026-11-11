@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#061c35">
+  <meta name="description" content="Choose a color for Kimberly's jellyfish companion.">
+  <title>Jellyfish Avatars — Kimberly Cárcamo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="avatars-page">
+  <div class="ocean-grain" aria-hidden="true"></div>
+  <header class="topbar">
+    <a class="brand" href="index.html#inicio" aria-label="Back to portfolio home">
+      <span class="brand-mark">K<span>.</span></span>
+      <span class="brand-name">KIMBERLY <small>DIGITAL PORTFOLIO</small></span>
+    </a>
+    <nav class="main-nav avatars-nav" id="mainNav">
+      <a href="index.html#inicio" class="nav-link">Home</a>
+      <a href="index.html#sobre-mi" class="nav-link">About</a>
+      <a href="index.html#proyectos" class="nav-link">Projects</a>
+      <a href="index.html#certificaciones" class="nav-link">Certifications</a>
+      <a href="index.html#habilidades" class="nav-link">Skills</a>
+      <a href="index.html#contacto" class="nav-link">Contact</a>
+      <a href="avatars.html" class="nav-link active" aria-current="page">Avatars</a>
+    </nav>
+    <button class="menu-toggle" id="menuToggle" type="button" aria-label="Open menu" aria-controls="mainNav" aria-expanded="false">☰</button>
+  </header>
+
+  <main class="avatars-main">
+    <section class="jellyfish-gallery section-shell" aria-labelledby="avatarTitle">
+      <div class="section-kicker"><span>✦</span> / PERSONALIZE YOUR OCEAN FRIEND</div>
+      <div class="jellyfish-gallery-heading">
+        <div>
+          <p class="mini-label">ONE LITTLE FRIEND · FIVE COLORS</p>
+          <h1 id="avatarTitle">MEET YOUR<br><span>JELLYFISH.</span></h1>
+        </div>
+        <p>Choose your favorite color for the little jellyfish that travels through my portfolio. Every avatar is made from the same original illustration.</p>
+      </div>
+      <div class="jellyfish-avatar-grid" role="group" aria-label="Choose a jellyfish color">
+        <button class="jelly-avatar-card" type="button" data-jelly-color="violet" aria-pressed="false"><span class="jelly-avatar-art jelly-violet"><img src="octopus-companion.png" alt="Violet jellyfish avatar"></span><strong>Violet</strong><small>Original glow</small></button>
+        <button class="jelly-avatar-card" type="button" data-jelly-color="pink" aria-pressed="false"><span class="jelly-avatar-art jelly-pink"><img src="octopus-companion.png" alt="Pink jellyfish avatar"></span><strong>Pink</strong><small>Soft coral</small></button>
+        <button class="jelly-avatar-card" type="button" data-jelly-color="blue" aria-pressed="false"><span class="jelly-avatar-art jelly-blue"><img src="octopus-companion.png" alt="Blue jellyfish avatar"></span><strong>Ocean</strong><small>Deep blue</small></button>
+        <button class="jelly-avatar-card" type="button" data-jelly-color="mint" aria-pressed="false"><span class="jelly-avatar-art jelly-mint"><img src="octopus-companion.png" alt="Mint jellyfish avatar"></span><strong>Mint</strong><small>Sea breeze</small></button>
+        <button class="jelly-avatar-card" type="button" data-jelly-color="gold" aria-pressed="false"><span class="jelly-avatar-art jelly-gold"><img src="octopus-companion.png" alt="Golden jellyfish avatar"></span><strong>Golden</strong><small>Sunlight</small></button>
+      </div>
+      <p class="jellyfish-gallery-note" id="jellyfishChoiceNote" aria-live="polite">Your jellyfish is ready to explore with you ✦</p>
+      <a class="button button-primary avatars-back" href="index.html#inicio">BACK TO MY PORTFOLIO <span>↗</span></a>
+    </section>
+  </main>
+  <footer class="footer"><a href="index.html#inicio">K<span>.</span></a><span>Designed with curiosity by Kimberly Cárcamo</span><span>© <span id="year"></span> · MADE TO KEEP EXPLORING</span></footer>
+  <script>
+    const colorFilters = {
+      violet: 'none',
+      pink: 'hue-rotate(105deg) saturate(1.08)',
+      blue: 'hue-rotate(35deg) saturate(1.2)',
+      mint: 'hue-rotate(220deg) saturate(.9)',
+      gold: 'hue-rotate(155deg) saturate(1.18)'
+    };
+    const colorNames = { violet: 'violet', pink: 'pink', blue: 'ocean blue', mint: 'mint', gold: 'golden' };
+    const cards = [...document.querySelectorAll('[data-jelly-color]')];
+    const note = document.getElementById('jellyfishChoiceNote');
+    const savedColor = localStorage.getItem('kimberlyJellyColor') || 'violet';
+    function selectColor(color) {
+      cards.forEach(card => {
+        const selected = card.dataset.jellyColor === color;
+        card.classList.toggle('selected', selected);
+        card.setAttribute('aria-pressed', String(selected));
+      });
+      localStorage.setItem('kimberlyJellyColor', color);
+      note.textContent = `Your ${colorNames[color]} jellyfish is ready to explore with you ✦`;
+    }
+    cards.forEach(card => card.addEventListener('click', () => selectColor(card.dataset.jellyColor)));
+    selectColor(savedColor);
+    document.getElementById('year').textContent = new Date().getFullYear();
+    const menuToggle = document.getElementById('menuToggle');
+    const mainNav = document.getElementById('mainNav');
+    function setMenuOpen(open) {
+      mainNav.classList.toggle('open', open);
+      menuToggle.setAttribute('aria-expanded', String(open));
+      menuToggle.setAttribute('aria-label', open ? 'Close navigation menu' : 'Open navigation menu');
+      menuToggle.textContent = open ? '×' : '☰';
+    }
+    menuToggle.addEventListener('click', () => setMenuOpen(menuToggle.getAttribute('aria-expanded') !== 'true'));
+    mainNav.querySelectorAll('a').forEach(link => link.addEventListener('click', () => setMenuOpen(false)));
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape' && mainNav.classList.contains('open')) { setMenuOpen(false); menuToggle.focus(); }
+    });
+    document.addEventListener('click', event => {
+      if (mainNav.classList.contains('open') && !mainNav.contains(event.target) && !menuToggle.contains(event.target)) setMenuOpen(false);
+    });
+    window.addEventListener('resize', () => { if (window.innerWidth > 860) setMenuOpen(false); });
+  </script>
+</body>
+</html>
